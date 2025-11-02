@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation'
 import React from 'react'
 import { Pyramid } from 'lucide-react'
 import { sidebarData } from '@/lib/data'
-import { TooltipProvider } from '@radix-ui/react-tooltip'
+import { TooltipContent, TooltipProvider } from '@radix-ui/react-tooltip'
 import { Tooltip, TooltipTrigger } from '@/components/ui/tooltip'
 import Link from 'next/link'
 import { UserButton } from '@clerk/nextjs'
@@ -36,6 +36,9 @@ function Sidebar({ props }: { props: Props }) {
                                     />
                                 </Link>
                             </TooltipTrigger>
+                            <TooltipContent side="right">
+                                <span className='text-sm'>{item.title}</span>
+                            </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
                 ))}

@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import PurpleIcon from '../PurpleIcon'
+import CreateWebinarButton from '../CreateWebinarButton'
 
 type Props = {}
 
@@ -30,11 +31,14 @@ function Header( { props }: {props : Props}) {
                     {pathname.split('/')[1]}
                 </div>
             )}
-            
+
             <div className='flex gap-6 items-center flex-wrap'>
                 <PurpleIcon>
                     <CloudLightning />
                 </PurpleIcon>
+
+                <CreateWebinarButton />
+
             </div>
         </div>
     )
