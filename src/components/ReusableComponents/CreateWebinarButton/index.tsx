@@ -6,13 +6,34 @@ import { Dialog, DialogHeader } from '@/components/ui/dialog'
 import { useWebinarStore } from '@/store/useWebinarStore'
 import { DialogContent, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { PlusIcon } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
+import MultiStepForm from './MultiStepForm'
+import BasicInfoStep from './BasicInfoStep'
 
 
 type Props = {}
 
 function CreateWebinarButton(props: Props) {
-    const { isModalOpen, setModalOpen } = useWebinarStore()
+    const { isModalOpen, setModalOpen, isComplete, setComplete } = useWebinarStore()
+
+
+    const [ webinarLink, setWebinarLink ] = useState('')
+
+    const steps = [
+        {
+            id: 'basicInfo',
+            title: 'Basic Information',
+            description: 'Please fill out the standard info needed for your webinar',
+            component: <BasicInfoStep />
+        },
+    ]
+
+    const handleComplete = (webinarId: string) => {
+        setComplete(true)
+        setWebinarLink(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/live-webinar/${webinarId}`
+        )
+    }
 
     
     return (
@@ -27,7 +48,20 @@ function CreateWebinarButton(props: Props) {
                 </button>
             </DialogTrigger>
             <DialogContent className='sm:max-w-[900px] p-0 bg-transparent border-none'>
-                <DialogTitle>Create Webinar</DialogTitle>
+                {isComplete ? (
+                    <div className='bg-muted text-primary rounded-lg overflow-hidden'>
+                        <DialogTitle className='sr-only'>Webinar Created</DialogTitle>
+                        <SuucessStep />
+                    </div>
+                ): (
+                    <>
+                        <DialogTitle className='sr-only'>Create Webinar</DialogTitle>
+                        <MultiStepForm 
+                            steps={steps}
+                            onComplete={handleComplete}
+                        />
+                    </>
+                )}
             </DialogContent>
         </Dialog>
     )
